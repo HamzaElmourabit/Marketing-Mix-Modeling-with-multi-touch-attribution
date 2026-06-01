@@ -14,6 +14,7 @@ Le pipeline couvre :
 - intégration de dashboards Looker embarqués
 
 ## 🏛️ Architecture du projet
+![Architecture du pipeline](Assets/architecture_mmm.png)
 
 ```text
 [Data Source] --> [ETL Pipeline] --> [Processed CSV + BigQuery] --> [Visualization]
@@ -25,7 +26,6 @@ Le pipeline couvre :
 
 ### Illustrations clés
 
-![Architecture du pipeline](Assets/architecture_mmm.png)
 
 ![Interface dashboard](Assets/Interface_dashboard.png)
 
