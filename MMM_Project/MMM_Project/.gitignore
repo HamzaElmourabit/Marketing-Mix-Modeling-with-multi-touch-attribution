@@ -1,7 +1,0 @@
-__pycache__/
-*.pyc
-.env
-data/raw/
-data/processed/
-venv/
-.DS_Store
