@@ -15,7 +15,7 @@ Trois niveaux de documentation sont disponibles :
 |----------|---------|--------|-------|
 | **[README.md](README.md)** (ce fichier) | Vue d'ensemble générale | Markdown | Introduction rapide |
 | **[ARCHITECTURE.md](ARCHITECTURE.md)** | Architecture détaillée, flux ETL, pipeline, technologies | Markdown | Compréhension technique complète |
-| **[MMM_Report_Final.tex](MMM_Report_Final.tex)** | Rapport professionnel ~30 pages avec images réelles | LaTeX/PDF | Reporting executive, publication |
+| **[Rapport_Projet18.pdf](Rapport_Projet18.pdf)** | Rapport professionnel ~30 pages avec images réelles | LaTeX/PDF | Reporting executive, publication |
 
 ## 🚀 Démarrage Rapide
 
