@@ -1,8 +1,3 @@
-"""
-Event Enrichment Module - MMM Project
-Enrichit les données avec les jours fériés et événements spéciaux.
-"""
-
 import pandas as pd
 import os
 from datetime import datetime
