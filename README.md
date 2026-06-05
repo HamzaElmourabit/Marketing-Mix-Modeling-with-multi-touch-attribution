@@ -97,36 +97,60 @@ python run_pipeline.py --bigquery         # + Export BigQuery
 ```
 
 ```mermaid
-flowchart LR
+graph TD
+    %% Style Global
+    classDef source fill:#f9f9f9,stroke:#333,stroke-width:2px;
+    classDef process fill:#e1f5fe,stroke:#0288d1,stroke-width:2px;
+    classDef model fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px;
+    classDef output fill:#e8f5e9,stroke:#388e3c,stroke-width:2px;
 
-A[Raw Marketing Data] --> B[Validation Layer]
-B --> C[Cleaning Layer]
-C --> D[Feature Engineering]
+    %% Nœuds de données brutes
+    subgraph Raw_Data [Données Brutes]
+        A[compressed_data.csv]
+        A2[holidays.csv / reference]
+    end
+    class Raw_Data source;
 
-D --> E[Adstock Transformation]
-D --> F[Saturation Modeling]
-D --> G[Seasonality & Events]
+    %% Pipeline ETL
+    subgraph ETL_Pipeline [Pipeline ETL]
+        B[Validation] --> C[Nettoyage & Uniformisation]
+        C --> D[Enrichissement Événements]
+        D --> E[Feature Engineering <br> Adstock & Saturation]
+        E --> F[Normalisation / Scaling]
+    end
+    class ETL_Pipeline process;
 
-E --> H[MMM Dataset]
-F --> H
-G --> H
+    %% Données transformées
+    G[(mmm_ready.csv)]
+    class G process;
 
-H --> I[ML Models]
-I --> J[Ridge Regression MMM]
-I --> K[Bayesian MMM]
+    %% Consommateurs
+    subgraph Modeling_Layer [Modélisation & Simulation]
+        H[Ridge Regression / PyMC]
+        H1[Attribution Multi-Touch]
+        H2[What-If Simulation]
+    end
+    class Modeling_Layer model;
 
-J --> L[Channel Attribution]
-K --> L
+    subgraph Viz_Layer [Visualisation & Business Intelligence]
+        I[Streamlit App]
+        J[(BigQuery Analytics)]
+        K[Looker Embed]
+    end
+    class Viz_Layer output;
 
-L --> M[Budget Optimization]
-L --> N[Scenario Simulation]
+    L[Rapport Synthèse PDF / LaTeX]
+    class L output;
 
-M --> O[Streamlit Dashboard]
-N --> O
-
-H --> P[BigQuery]
-P --> Q[Looker Studio]
-
+    %% Connexions
+    Raw_Data --> B
+    F --> G
+    G --> H
+    G --> I
+    G --> J
+    J --> K
+    H --> I
+    I --> L
 
 ### Illustrations clés
 
