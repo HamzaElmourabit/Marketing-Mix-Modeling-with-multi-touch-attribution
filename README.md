@@ -99,18 +99,7 @@ python run_pipeline.py --bigquery         # + Export BigQuery
 
 Cette section présente des diagrammes complémentaires (format Mermaid et ASCII) pour illustrer le flux de données, la transformation des features, et les résultats d’attribution.
 
-### 1. Pipeline ETL détaillé (Mermaid)
 
-```mermaid
-flowchart TD
-    A[Données brutes<br>compressed_data.csv] --> B[Validation<br>et nettoyage]
-    B --> C[Enrichissement<br>événements & calendrier]
-    C --> D[Feature engineering<br>Adstock, saturation, lags]
-    D --> E[Normalisation]
-    E --> F[(mmm_ready.csv)]
-    F --> G[Modélisation MMM]
-    F --> H[Dashboard Streamlit]
-    F --> I[BigQuery / Looker]
 ### Illustrations clés
 
 ![Architecture du pipeline](Assets/architecture_mmm.png)  
