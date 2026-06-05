@@ -118,6 +118,9 @@ Pour la **documentation architecture détaillée** → voir [ARCHITECTURE.md](AR
 ![Top 5 canaux dépensiers](Assets/Top_5_canaux_les_plus_dépensiers.png)  
 **Figure 6** : Top 5 canaux — Ranking des dépenses marketing par canal
 
+![Dashboard_Looker](Assets/Dashboard_Looker.png)
+**Figure 7** : Looker_Dashboard
+
 ### Composants principaux
 
 1. `data/` :
