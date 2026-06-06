@@ -117,7 +117,7 @@ Cette section présente des diagrammes complémentaires (format Mermaid et ASCII
 ![ROI global](Assets/ROI_Global.png)  
 **Figure 5** : ROI global — Vue synthétique de la performance par canal
 
-![Top 5 canaux dépensiers](Assets/Top_5_canaux_les_plus_dépensiers.png)  
+![Top 5 canaux dépensiers](Assets/Attribution_par_canal.png)  
 **Figure 6** : Top 5 canaux — Ranking des dépenses marketing par canal
 
 ![Dashboard_Lokker](Assets/Dashboard_Lokker.png)
