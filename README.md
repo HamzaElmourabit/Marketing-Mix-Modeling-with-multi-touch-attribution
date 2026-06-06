@@ -105,7 +105,7 @@ Cette section présente des diagrammes complémentaires (format Mermaid et ASCII
 ![Architecture du pipeline](Assets/architecture_mmm.png)  
 **Figure 1** : Architecture MMM — Pipeline ETL complet (ingestion → modélisation → dashboard)
 
-![Interface dashboard](Assets/Interface_dashboard.png)  
+![Interface dashboard](Assets/Dashboard_Interface.png)  
 **Figure 2** : Interface Streamlit — Vue principale du dashboard avec KPIs et tendances
 
 ![Attribution multi-touch](Assets/Attribution_multi_touch.png)  
