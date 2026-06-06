@@ -108,7 +108,7 @@ Cette section présente des diagrammes complémentaires (format Mermaid et ASCII
 ![Interface dashboard](Assets/Dashboard_Interface.png)  
 **Figure 2** : Interface Streamlit — Vue principale du dashboard avec KPIs et tendances
 
-![Attribution multi-touch](Assets/Attribution_multi_touch.png)  
+![Attribution multi-touch](Assets/Attribution_Shapley_Value.png)  
 **Figure 3** : Attribution multi-touch — Breakdown des contributions par canal marketing
 
 ![Scénarios budgétaires](Assets/Scénario_What_if.png)  
