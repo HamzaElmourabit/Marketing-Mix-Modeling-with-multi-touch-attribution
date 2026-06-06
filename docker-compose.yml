@@ -1,0 +1,22 @@
+version: '3.9'
+
+services:
+  web:
+    build: .
+    ports:
+      - '8501:8501'
+    volumes:
+      - .:/app:cached
+    environment:
+      - STREAMLIT_SERVER_HEADLESS=true
+      - STREAMLIT_SERVER_PORT=8501
+      - STREAMLIT_SERVER_ADDRESS=0.0.0.0
+    command: streamlit run dashboard/app.py --server.port 8501 --server.address 0.0.0.0
+
+  pipeline:
+    build: .
+    volumes:
+      - .:/app:cached
+    command: python run_pipeline.py
+    depends_on:
+      - web
