@@ -120,6 +120,9 @@ Cette section présente des diagrammes complémentaires (format Mermaid et ASCII
 ![Top 5 canaux dépensiers](Assets/Attribution_par_canal.png)  
 **Figure 6** : Top 5 canaux — Ranking des dépenses marketing par canal
 
+![Bayasian_Model_MMM](Assets/Bayasian_Model_MMM.png)  
+**Figure 6** : Bayasian_Model_MMM
+
 ![Dashboard_Lokker](Assets/Dashboard_Lokker.png)
  **Figure 7** : Looker_Dashboard
 
