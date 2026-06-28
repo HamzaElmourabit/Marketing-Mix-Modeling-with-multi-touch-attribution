@@ -102,7 +102,7 @@ Cette section présente des diagrammes complémentaires (format Mermaid et ASCII
 
 ### Illustrations clés
 
-![Architecture du pipeline](Assets/architecture_mmm_final_docker.png)  
+![architecture_mmm_final_docker](Assets/architecture_mmm_final_docker.png)  
 **Figure 1** : Architecture MMM — Pipeline ETL complet (ingestion → modélisation → dashboard)
 
 ![Interface dashboard](Assets/Dashboard_Interface.png)  
