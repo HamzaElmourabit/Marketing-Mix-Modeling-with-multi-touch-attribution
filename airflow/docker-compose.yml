@@ -1,0 +1,16 @@
+services:
+  airflow:
+    image: apache/airflow:2.7.1
+    environment:
+      - _PIP_ADDITIONAL_REQUIREMENTS=apache-airflow-providers-docker
+      - REPO_DIR=/workspace
+      - AIRFLOW__CORE__LOAD_EXAMPLES=False
+      - AIRFLOW__CORE__DAGS_FOLDER=/opt/airflow/dags
+    volumes:
+      - ..:/workspace:rw
+      - ./dags:/opt/airflow/dags:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    ports:
+      - '8080:8080'
+    entrypoint: ["bash", "-c", "airflow standalone"]
+    restart: unless-stopped
