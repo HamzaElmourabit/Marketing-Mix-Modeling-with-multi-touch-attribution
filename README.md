@@ -59,41 +59,30 @@ python run_pipeline.py --bigquery         # + Export BigQuery
 **Résultat** : `data/processed/mmm_ready.csv` (utilisé par le dashboard)
 
 ---
+## 🏗️ Architecture globale
 
-## 🏗️ Architecture Globale
-
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                    MMM SYSTEM ARCHITECTURE                      │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                 │
-│  Raw Data             ETL Pipeline          Processed Data     │
-│  └─ compressed_data   ├─ validation         └─ mmm_ready.csv   │
-│     .csv              ├─ cleaning                               │
-│                       ├─ event_enrichment                       │
-│                       ├─ feature_engineering (adstock, sat)     │
-│                       ├─ normalization                          │
-│                       └─ export                                 │
-│                             ↓                                   │
-│                    ┌────────┴────────┐                          │
-│                    ↓                 ↓                          │
-│              Models              Dashboard                      │
-│         (mmm_model.py)      (Streamlit app.py)                 │
-│         └─ Ridge Regression  ├─ Dashboard (KPIs)               │
-│            · Training         ├─ Channels Analysis              │
-│            · Attribution      ├─ Budget Scenarios               │
-│            · Prediction       ├─ Attribution                    │
-│                                ├─ Looker Embed                  │
-│                                └─ Configuration                 │
-│                                       ↓                         │
-│                    ┌──────────────────┴────────────┐            │
-│                    ↓                               ↓            │
-│                BigQuery                      PDF Report         │
-│           (Analytics DB)                   (MMM_Report.pdf)    │
-│         └─ mmm table                    with real images       │
-│            (for Looker)                 & technologies         │
-│                                                                 │
-└─────────────────────────────────────────────────────────────────┘
+```text
+Sources media + ventes + geo
+        |
+        v
+Airflow DAG / orchestration
+        |
+        v
+Validation -> Cleaning -> Event enrichment -> Feature engineering -> Normalization
+        |
+        v
+Dataset MMM prêt
+        |
+        +-------------------+--------------------+--------------------+-------------------+-------------------+
+        |                   |                    |                    |                   |                   |
+        v                   v                    v                    v                   v                   v
+Ridge MMM baseline      Bayesian MMM        MLflow tracking       BigQuery / Looker   Streamlit dashboard   Geo experiments
+        |                   |                    |                    |                   |                   |
+        v                   v                    v                    v                   v                   v
+Budget scenarios      Posterior analysis   Model registry / run   SQL views / BI      Attribution / scenarios   Incrementality
+        |
+        v
+Airflow schedules and monitors ETL, tests, training and deployment steps
 ```
 ## 📈 Diagrammes et Graphes
 
