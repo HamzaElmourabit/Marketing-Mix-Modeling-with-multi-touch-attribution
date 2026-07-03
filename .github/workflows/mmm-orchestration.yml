@@ -1,0 +1,80 @@
+name: MMM Pipeline Orchestration
+
+on:
+  schedule:
+    # Exécute chaque jour à 2h du matin UTC (3h été)
+    - cron: '0 2 * * *'
+  workflow_dispatch:  # Permet de déclencher manuellement
+
+jobs:
+  mmm-pipeline:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        python-version: ['3.10']
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: 'pip'
+      
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      
+      - name: Run ETL Pipeline
+        env:
+          # Si vous avez des secrets BigQuery, les ajouter ici
+          # GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GCP_CREDENTIALS }}
+          PYTHONUNBUFFERED: 1
+        run: |
+          echo "Starting ETL Pipeline..."
+          python run_pipeline.py
+          echo "ETL Pipeline completed successfully"
+      
+      - name: Run Tests
+        run: |
+          echo "Running test suite..."
+          python -m pytest -v --tb=short
+          echo "All tests passed!"
+      
+      - name: Train MMM Model
+        run: |
+          echo "Training MMM model..."
+          python scripts/train_model.py
+          echo "Model training completed"
+      
+      - name: Upload artifacts
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: mmm-artifacts
+          path: models/artifacts/
+          retention-days: 30
+      
+      - name: Upload logs
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: pipeline-logs
+          path: logs/
+          retention-days: 7
+      
+      - name: Notify on failure
+        if: failure()
+        run: |
+          echo "❌ Pipeline failed!"
+          echo "Check logs: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+      
+      - name: Notify on success
+        if: success()
+        run: |
+          echo "✅ Pipeline completed successfully!"
+          echo "Artifacts available: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
