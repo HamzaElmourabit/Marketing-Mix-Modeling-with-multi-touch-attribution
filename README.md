@@ -155,7 +155,7 @@ Pour la **documentation architecture détaillée** → voir [ARCHITECTURE.md](AR
 ![Architecture du pipeline](Assets/architecture_mmm_final_docker.png)  
 **Figure 1** : Architecture MMM — Pipeline ETL complet (ingestion → modélisation → dashboard)
 
-![Interface dashboard](Assets/Interface_dashboard.png)  
+![Interface dashboard](Assets/Dashboard_Interface.png)  
 **Figure 2** : Interface Streamlit — Vue principale du dashboard avec KPIs et tendances
 
 ![Attribution multi-touch](Assets/Attribution_multi_touch.png)  
