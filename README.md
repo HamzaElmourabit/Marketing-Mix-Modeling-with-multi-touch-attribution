@@ -94,43 +94,59 @@ Le workflow CI construit l’environnement, exécute les tests et lance `flake8`
 
 ---
 
+## Orchestration Airflow
+
+Airflow orchestre la chaîne MMM en production locale ou managée:
+
+```text
+Airflow DAG `mmm_pipeline`
+    -> ETL + export BigQuery
+    -> tests unitaires
+    -> entraînement Ridge / Bayesian
+    -> tracking MLflow
+```
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│                    MMM PROJECT ARCHITECTURE                         │
+├─────────────────────────────────────────────────────────────────────┤
+│                                                                       │
+│  [Raw Data]           [ETL Pipeline]         [Processed Data]       │
+│  ├─ compressed_data   ├─ clean.py           ├─ mmm_ready.csv      │
+│  │                    ├─ validation.py      ├─ mmm_clean.csv      │
+│  │                    ├─ event_enrichment   └─ mmm_normalized.csv │
+│  │                    ├─ feature_engineering│                      │
+│  │                    ├─ normalize.py       │                      │
+│  │                    └─ pipeline.py        │                      │
+│  │                           │              │                      │
+│  │                           └──────────────┤                      │
+│  │                                          │                      │
+│  └──────────────────────────┬───────────────┘                      │
+│                             │                                       │
+│                    ┌────────┴─────────┐                            │
+│                    │                  │                            │
+│               [BigQuery]    [Models & Dashboard]                   │
+│               ├─ mmm table  ├─ mmm_model.py (Ridge)              │
+│               │             ├─ dashboard/app.py (Streamlit)       │
+│               │             └─ Dashboard pages:                    │
+│               │                ├─ Dashboard (KPIs)                 │
+│               │                ├─ Analyse Canaux                   │
+│               │                ├─ Scénarios Budgétaires            │
+│               │                ├─ Attribution                      │
+│               │                ├─ Looker Embed                     │
+│               │                └─ Configuration                    │
+│               │                                                    │
+│               └─────────────────────┬────────────────────────────┘ │
+│                                     │                              │
+│                           [Reports & Visualizations]              │
+│                           ├─ PDF Report (LaTeX)                   │
+│                           ├─ Assets/ (images)                     │
+│                           └─ Looker Dashboards                    │
+│                                                                    │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
 ---
-
-## 🏗️ Architecture Globale
-
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                    MMM SYSTEM ARCHITECTURE                      │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                 │
-│  Raw Data             ETL Pipeline          Processed Data     │
-│  └─ compressed_data   ├─ validation         └─ mmm_ready.csv   │
-│     .csv              ├─ cleaning                               │
-│                       ├─ event_enrichment                       │
-│                       ├─ feature_engineering (adstock, sat)     │
-│                       ├─ normalization                          │
-│                       └─ export                                 │
-│                             ↓                                   │
-│                    ┌────────┴────────┐                          │
-│                    ↓                 ↓                          │
-│              Models              Dashboard                      │
-│         (mmm_model.py)      (Streamlit app.py)                 │
-│         └─ Ridge Regression  ├─ Dashboard (KPIs)               │
-│            · Training         ├─ Channels Analysis              │
-│            · Attribution      ├─ Budget Scenarios               │
-│            · Prediction       ├─ Attribution                    │
-│                                ├─ Looker Embed                  │
-│                                └─ Configuration                 │
-│                                       ↓                         │
-│                    ┌──────────────────┴────────────┐            │
-│                    ↓                               ↓            │
-│                BigQuery                      PDF Report         │
-│           (Analytics DB)                   (MMM_Report.pdf)    │
-│         └─ mmm table                    with real images       │
-│            (for Looker)                 & technologies         │
-│                                                                 │
-└─────────────────────────────────────────────────────────────────┘
-```
 
 Pour la **documentation architecture détaillée** → voir [ARCHITECTURE.md](ARCHITECTURE.md)
 
