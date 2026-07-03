@@ -152,7 +152,7 @@ Pour la **documentation architecture détaillée** → voir [ARCHITECTURE.md](AR
 
 ### Illustrations clés
 
-![Architecture du pipeline](Assets/architecture_mmm.png)  
+![Architecture du pipeline](Assets/architecture_mmm_final_docker.png)  
 **Figure 1** : Architecture MMM — Pipeline ETL complet (ingestion → modélisation → dashboard)
 
 ![Interface dashboard](Assets/Interface_dashboard.png)  
