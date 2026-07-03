@@ -1,0 +1,139 @@
+{
+  "posterior_intercept": -1.0801185865940979e-17,
+  "posterior_sigma": 0.7233326319280976,
+  "feature_cols": [
+    "GOOGLE_PAID_SEARCH_SPEND_ADSTOCK_SAT",
+    "GOOGLE_SHOPPING_SPEND_ADSTOCK_SAT",
+    "GOOGLE_PMAX_SPEND_ADSTOCK_SAT",
+    "GOOGLE_DISPLAY_SPEND_ADSTOCK_SAT",
+    "GOOGLE_VIDEO_SPEND_ADSTOCK_SAT",
+    "META_FACEBOOK_SPEND_ADSTOCK_SAT",
+    "META_INSTAGRAM_SPEND_ADSTOCK_SAT",
+    "META_OTHER_SPEND_ADSTOCK_SAT",
+    "TIKTOK_SPEND_ADSTOCK_SAT",
+    "GOOGLE_SEARCH_SPEND_ADSTOCK_SAT",
+    "GOOGLE_META_INTERACTION",
+    "SEARCH_DISPLAY_INTERACTION",
+    "WEEKDAY",
+    "MONTH_SIN",
+    "MONTH_COS",
+    "TREND",
+    "IS_HOLIDAY",
+    "IS_MAJOR_EVENT",
+    "IS_CRITICAL_EVENT",
+    "IS_HIGH_IMPACT",
+    "IS_MEDIUM_IMPACT"
+  ],
+  "posterior_summary": [
+    {
+      "parameter": "intercept",
+      "mean": -1.0801185865940979e-17,
+      "sd": 0.005152175656339177
+    },
+    {
+      "parameter": "GOOGLE_PAID_SEARCH_SPEND_ADSTOCK_SAT",
+      "mean": 0.2341652216418879,
+      "sd": 0.7071253016197846
+    },
+    {
+      "parameter": "GOOGLE_SHOPPING_SPEND_ADSTOCK_SAT",
+      "mean": 0.2938385014913588,
+      "sd": 0.00673263989731324
+    },
+    {
+      "parameter": "GOOGLE_PMAX_SPEND_ADSTOCK_SAT",
+      "mean": 0.14269111001123136,
+      "sd": 0.01764758525197156
+    },
+    {
+      "parameter": "GOOGLE_DISPLAY_SPEND_ADSTOCK_SAT",
+      "mean": 0.2623722145647598,
+      "sd": 0.023678115669688738
+    },
+    {
+      "parameter": "GOOGLE_VIDEO_SPEND_ADSTOCK_SAT",
+      "mean": -0.1445854302857943,
+      "sd": 0.020042814732049302
+    },
+    {
+      "parameter": "META_FACEBOOK_SPEND_ADSTOCK_SAT",
+      "mean": 0.34290854083591427,
+      "sd": 0.026176703291488537
+    },
+    {
+      "parameter": "META_INSTAGRAM_SPEND_ADSTOCK_SAT",
+      "mean": -0.05473446160133144,
+      "sd": 0.009684149770544187
+    },
+    {
+      "parameter": "META_OTHER_SPEND_ADSTOCK_SAT",
+      "mean": 0.009081732342003546,
+      "sd": 0.008886494744876388
+    },
+    {
+      "parameter": "TIKTOK_SPEND_ADSTOCK_SAT",
+      "mean": -0.025357196104414836,
+      "sd": 0.005194495522281272
+    },
+    {
+      "parameter": "GOOGLE_SEARCH_SPEND_ADSTOCK_SAT",
+      "mean": 0.23416522164006892,
+      "sd": 0.7071253016197845
+    },
+    {
+      "parameter": "GOOGLE_META_INTERACTION",
+      "mean": -0.27547406282884346,
+      "sd": 0.03761822688931501
+    },
+    {
+      "parameter": "SEARCH_DISPLAY_INTERACTION",
+      "mean": -0.2550752177949338,
+      "sd": 0.020104322744878105
+    },
+    {
+      "parameter": "WEEKDAY",
+      "mean": -0.003389224876592039,
+      "sd": 0.005152273089381494
+    },
+    {
+      "parameter": "MONTH_SIN",
+      "mean": -0.012407482467008443,
+      "sd": 0.005173671869399405
+    },
+    {
+      "parameter": "MONTH_COS",
+      "mean": -0.013397127247712332,
+      "sd": 0.0052057880107435305
+    },
+    {
+      "parameter": "TREND",
+      "mean": 0.02068033740286162,
+      "sd": 0.005245871424938998
+    },
+    {
+      "parameter": "IS_HOLIDAY",
+      "mean": 0.0,
+      "sd": 1.0
+    },
+    {
+      "parameter": "IS_MAJOR_EVENT",
+      "mean": 0.0,
+      "sd": 1.0
+    },
+    {
+      "parameter": "IS_CRITICAL_EVENT",
+      "mean": 0.0,
+      "sd": 1.0
+    },
+    {
+      "parameter": "IS_HIGH_IMPACT",
+      "mean": 0.0,
+      "sd": 1.0
+    },
+    {
+      "parameter": "IS_MEDIUM_IMPACT",
+      "mean": 0.0,
+      "sd": 1.0
+    }
+  ]
+}

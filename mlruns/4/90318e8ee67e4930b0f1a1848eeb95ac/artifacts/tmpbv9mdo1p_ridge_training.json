@@ -1,0 +1,28 @@
+{
+  "split_idx": 37672,
+  "feature_cols": [
+    "GOOGLE_PAID_SEARCH_SPEND_ADSTOCK_SAT",
+    "GOOGLE_SHOPPING_SPEND_ADSTOCK_SAT",
+    "GOOGLE_PMAX_SPEND_ADSTOCK_SAT",
+    "GOOGLE_DISPLAY_SPEND_ADSTOCK_SAT",
+    "GOOGLE_VIDEO_SPEND_ADSTOCK_SAT",
+    "META_FACEBOOK_SPEND_ADSTOCK_SAT",
+    "META_INSTAGRAM_SPEND_ADSTOCK_SAT",
+    "META_OTHER_SPEND_ADSTOCK_SAT",
+    "TIKTOK_SPEND_ADSTOCK_SAT",
+    "GOOGLE_SEARCH_SPEND_ADSTOCK_SAT",
+    "GOOGLE_META_INTERACTION",
+    "SEARCH_DISPLAY_INTERACTION",
+    "WEEKDAY",
+    "MONTH_SIN",
+    "MONTH_COS",
+    "TREND",
+    "IS_HOLIDAY",
+    "IS_MAJOR_EVENT",
+    "IS_CRITICAL_EVENT",
+    "IS_HIGH_IMPACT",
+    "IS_MEDIUM_IMPACT"
+  ],
+  "model_file": "C:\\Users\\khadi\\MMM_Project\\MMM_Project\\models\\artifacts\\mmm_model.pkl",
+  "metrics_file": "C:\\Users\\khadi\\MMM_Project\\MMM_Project\\models\\artifacts\\mmm_metrics.json"
+}

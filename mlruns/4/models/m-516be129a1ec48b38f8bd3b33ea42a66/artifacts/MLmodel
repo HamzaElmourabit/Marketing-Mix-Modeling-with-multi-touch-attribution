@@ -1,0 +1,23 @@
+artifact_path: file:C:/Users/khadi/MMM_Project/MMM_Project/mlruns/4/models/m-516be129a1ec48b38f8bd3b33ea42a66/artifacts
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.skops
+    predict_fn: predict
+    python_version: 3.13.5
+  sklearn:
+    code: null
+    pickled_model: model.skops
+    serialization_format: skops
+    sklearn_version: 1.7.2
+    skops_trusted_types: null
+mlflow_version: 3.14.0
+model_id: m-516be129a1ec48b38f8bd3b33ea42a66
+model_size_bytes: 29075
+model_uuid: m-516be129a1ec48b38f8bd3b33ea42a66
+prompts: null
+run_id: 90318e8ee67e4930b0f1a1848eeb95ac
+utc_time_created: '2026-06-28 20:06:40.607210'

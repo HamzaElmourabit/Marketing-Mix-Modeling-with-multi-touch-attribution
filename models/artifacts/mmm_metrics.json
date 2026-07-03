@@ -1,0 +1,11 @@
+{
+  "train_r2": 0.47709545206219794,
+  "train_mse": 170244330795.0478,
+  "train_mae": 76235.82895648816,
+  "test_r2": -0.5658480840981088,
+  "test_mse": 367227324044.2927,
+  "test_mae": 96927.7645833801,
+  "test_mape": 2600.5786168749833,
+  "target_col": "FIRST_PURCHASES_ORIGINAL_PRICE",
+  "test_size": 0.2
+}
