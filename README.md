@@ -1,27 +1,158 @@
-# MMM Project - Marketing Mix Modeling (MMM)
+# 🎯 Marketing Mix Modeling (MMM) — Projet Complet
 
-## 🚀 Overview
+[![Python 3.8+](https://img.shields.io/badge/python-3.8%2B-blue)](https://www.python.org/)
+[![Streamlit](https://img.shields.io/badge/streamlit-1.28.1-FF4B4B)](https://streamlit.io)
+[![Scikit-learn](https://img.shields.io/badge/scikit--learn-1.3.2-F7931E)](https://scikit-learn.org)
+[![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
-Ce projet implémente une solution complète de Marketing Mix Modeling (MMM) avec attribution multi-touch, modélisation Bayésienne et visualisation analytique.
+Système end-to-end pour analyser l'efficacité des canaux marketing, estimer les contributions des dépenses publicitaires et simuler des scénarios budgétaires.
 
-Le pipeline couvre :
-- ingestion et nettoyage des données marketing et commerciales
-- enrichissement calendrier et événements
-- ingénierie des features MMM (adstock, lags, saturations, interactions)
-- normalisation des variables pour amélioration de la modélisation
-- chargement de la table transformée dans BigQuery
-- dashboard Streamlit pour le reporting
-- intégration de dashboards Looker embarqués
+## 📚 Documentation Complète
 
-## 🏛️ Architecture du projet
+Trois niveaux de documentation sont disponibles :
 
-```text
-[Data Source] --> [ETL Pipeline] --> [Processed CSV + BigQuery] --> [Visualization]
-                                              |                     |
-                                              v                     v
-                                          [Bayesian MMM]       [Streamlit App]
-                                                                 [Looker Embed]
+| Document | Contenu | Format | Usage |
+|----------|---------|--------|-------|
+| **[README.md](README.md)** (ce fichier) | Vue d'ensemble générale | Markdown | Introduction rapide |
+| **[ARCHITECTURE.md](ARCHITECTURE.md)** | Architecture détaillée, flux ETL, pipeline, technologies | Markdown | Compréhension technique complète |
+| **[MMM_Report_Final.tex](MMM_Report_Final.tex)** | Rapport professionnel ~30 pages avec images réelles | LaTeX/PDF | Reporting executive, publication |
+
+## 🚀 Démarrage Rapide
+
+### Installation (5 minutes)
+
+```bash
+# 1. Clone ou télécharger le projet
+cd MMM_Project
+
+# 2. Créer environment virtuel
+python -m venv venv
+source venv/bin/activate  # ou: venv\Scripts\activate (Windows)
+
+# 3. Installer les dépendances
+pip install -r requirements.txt
+
+# 4. Configurer environnement
+cp .env.example .env
+# Éditer .env avec vos paramètres (BigQuery, Looker, etc.)
 ```
+
+### Lancer le Dashboard (2 minutes)
+
+```bash
+streamlit run dashboard/app.py
+# Accès : http://localhost:8501
+```
+
+### Avec Docker
+
+```bash
+# Construire l'image
+docker build -t mmm-project .
+
+# Lancer le dashboard
+docker run --rm -p 8501:8501 mmm-project
+```
+
+Ou avec Docker Compose :
+
+```bash
+docker compose up --build
+```
+
+Le dashboard sera alors disponible sur `http://localhost:8501`.
+
+Pour exécuter uniquement la pipeline ETL dans Docker :
+
+```bash
+docker compose run --rm pipeline
+```
+
+### Exécuter le Pipeline ETL (15 minutes)
+
+```bash
+# Première exécution : données brutes → données prêtes
+python run_pipeline.py
+
+# Options :
+python run_pipeline.py --validate-only    # Validation uniquement
+python run_pipeline.py --clean-only       # Nettoyage uniquement
+python run_pipeline.py --bigquery         # + Export BigQuery
+```
+
+**Résultat** : `data/processed/mmm_ready.csv` (utilisé par le dashboard)
+
+### Tests et intégration continue
+
+Le projet contient maintenant des tests unitaires et une pipeline CI GitHub Actions.
+
+```bash
+python -m pytest -q
+```
+
+Le workflow CI construit l’environnement, exécute les tests et lance `flake8`.
+
+---
+
+---
+
+## 🏗️ Architecture Globale
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                    MMM SYSTEM ARCHITECTURE                      │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│  Raw Data             ETL Pipeline          Processed Data     │
+│  └─ compressed_data   ├─ validation         └─ mmm_ready.csv   │
+│     .csv              ├─ cleaning                               │
+│                       ├─ event_enrichment                       │
+│                       ├─ feature_engineering (adstock, sat)     │
+│                       ├─ normalization                          │
+│                       └─ export                                 │
+│                             ↓                                   │
+│                    ┌────────┴────────┐                          │
+│                    ↓                 ↓                          │
+│              Models              Dashboard                      │
+│         (mmm_model.py)      (Streamlit app.py)                 │
+│         └─ Ridge Regression  ├─ Dashboard (KPIs)               │
+│            · Training         ├─ Channels Analysis              │
+│            · Attribution      ├─ Budget Scenarios               │
+│            · Prediction       ├─ Attribution                    │
+│                                ├─ Looker Embed                  │
+│                                └─ Configuration                 │
+│                                       ↓                         │
+│                    ┌──────────────────┴────────────┐            │
+│                    ↓                               ↓            │
+│                BigQuery                      PDF Report         │
+│           (Analytics DB)                   (MMM_Report.pdf)    │
+│         └─ mmm table                    with real images       │
+│            (for Looker)                 & technologies         │
+│                                                                 │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+Pour la **documentation architecture détaillée** → voir [ARCHITECTURE.md](ARCHITECTURE.md)
+
+### Illustrations clés
+
+![Architecture du pipeline](Assets/architecture_mmm.png)  
+**Figure 1** : Architecture MMM — Pipeline ETL complet (ingestion → modélisation → dashboard)
+
+![Interface dashboard](Assets/Interface_dashboard.png)  
+**Figure 2** : Interface Streamlit — Vue principale du dashboard avec KPIs et tendances
+
+![Attribution multi-touch](Assets/Attribution_multi_touch.png)  
+**Figure 3** : Attribution multi-touch — Breakdown des contributions par canal marketing
+
+![Scénarios budgétaires](Assets/Budget_Scenarios_What_if.png)  
+**Figure 4** : Simulations budgétaires — What-if analysis avec sliders et prédictions
+
+![ROI global](Assets/ROI_Global.png)  
+**Figure 5** : ROI global — Vue synthétique de la performance par canal
+
+![Top 5 canaux dépensiers](Assets/Top_5_canaux_les_plus_dépensiers.png)  
+**Figure 6** : Top 5 canaux — Ranking des dépenses marketing par canal
 
 ### Composants principaux
 
@@ -80,6 +211,8 @@ Le projet est prévu pour une modélisation Bayésienne MMM basée sur :
 - des termes de saisonnalité et d’événement
 - des variables d’output comme le revenu ou les ventes
 
+Une version de démonstration est actuellement implémentée dans `models/mmm_model.py` avec une régression Ridge sur les features adstockées et les contrôles, et un modèle Bayésien PyMC est maintenant disponible dans `models/mcmc.py` pour l'estimation postérieure des coefficients.
+
 ### Objectifs de la modélisation
 
 - estimer l’impact de chaque canal marketing sur les ventes
@@ -106,6 +239,7 @@ Le projet est prévu pour une modélisation Bayésienne MMM basée sur :
 - `dashboard/pages/looker_dashboards.py` : page Looker
 - `looker/lookml_models.py` : templates LookML
 - `run_pipeline.py` : exécution unique de la pipeline
+- `MMM_Report.tex` : rapport de synthèse en LaTeX
 - `.env.example` : configuration
 - `requirements.txt` : packages requis
 
@@ -173,6 +307,7 @@ python run_pipeline.py
 - `models/memory.py` : logique d’adstock et de saturation
 - `models/mcmc.py` : définition du modèle PyMC
 - `analysis/model_diagnostics.py` : diagnostics de convergence et de fit
+- `models/mmm_model.py` : modèle initial de régression MMM utilisé par le dashboard
 
 ### Variables clés du modèle
 
@@ -220,13 +355,204 @@ streamlit run dashboard/app.py
 - Activez l’embed pour les dashboards / espaces de travail
 - Vérifiez que `LOOKER_API_HOST` pointe vers votre instance Looker
 
-## 🧪 Tests
+## 🔄 Orchestration Pipeline (Airflow, GitHub Actions, Cloud Composer)
 
-Exécuter :
+### Option 1 : Airflow Local (Docker Compose) — Recommandé pour développement
+
+Lancez Airflow en local avec Docker :
 
 ```bash
-pytest
+cd airflow
+docker compose up -d
 ```
+
+Accédez à l'UI : `http://localhost:8080` (admin / admin)
+
+Le DAG `mmm_pipeline` orchestre automatiquement :
+- ETL + export BigQuery
+- Tests pytest
+- Entraînement du modèle
+
+**Avantages** : UI locale, debug facile, logs complets
+
+### Option 2 : GitHub Actions — 100% Gratuit (recommandé pour production légère)
+
+Exécution quotidienne automatique sans coût via CI/CD GitHub :
+
+```bash
+# 1. Initialiser Git et pousser le code
+git init
+git add .
+git commit -m "Initial: MMM pipeline"
+git remote add origin https://github.com/YOUR_USERNAME/mmm-project.git
+git push -u origin main
+
+# 2. Vérifier le workflow
+# Allez sur https://github.com/YOUR_USERNAME/mmm-project/actions
+```
+
+Le workflow `.github/workflows/mmm-orchestration.yml` exécute chaque jour :
+- Pipeline ETL complet
+- Tests unitaires
+- Entraînement du modèle MMM
+- Stockage des artefacts (modèles, logs)
+
+**Quota gratuit** : 2000 min/mois (vous n'utiliserez ~60-90 min)
+
+**Configuration BigQuery optionnelle** :
+1. Allez sur Settings → Secrets → Actions
+2. Ajoutez `GCP_CREDENTIALS` = votre `service-account.json`
+
+Voir [.github/GITHUB_ACTIONS_SETUP.md](.github/GITHUB_ACTIONS_SETUP.md) pour le guide complet.
+
+### Option 3 : Cloud Composer (GCP) — Production managée
+
+Déploiement sur Google Cloud Composer avec orchestration Airflow managée :
+
+```bash
+# Setup (si vous avez une carte GCP)
+.\cloud-composer\deploy.ps1
+```
+
+Cela crée :
+- Instance Cloud Composer (~$15/mois)
+- Workload Identity automatique pour BigQuery
+- Monitoring et logs GCP natifs
+
+Voir [cloud-composer/DEPLOY.md](cloud-composer/DEPLOY.md) pour les détails.
+
+**Coût réel** : ~$0 si usage modéré (quotas gratuits suffisent)
+
+---
+
+## 🧠 Modèles MMM Disponibles
+
+### 1. Ridge Regression (Baseline)
+
+Implémentation : `models/mmm_model.py`
+
+- Régression Ridge sur features adstockées et saturées
+- Rapide et stable
+- Attribution par canal
+- Prédiction de budget revenue
+
+Utilisation :
+```python
+from models.mmm_model import train_mmm_model, estimate_budget_revenue
+
+model_info = train_mmm_model(df)
+revenue_pred = estimate_budget_revenue(model_info, df, proposed_budget)
+```
+
+### 2. Bayesian MMM (Analytique)
+
+Implémentation : `models/mcmc.py`
+
+- Régression linéaire Bayésienne avec posteriors analytiques
+- Pas de compilation PyTensor (compatible Windows)
+- Coefficients + intervalles de confiance
+- Idéal pour inférence bayésienne sans overhead
+
+```python
+from models.mcmc import train_bayesian_mmm
+
+posterior = train_bayesian_mmm(df)
+# posterior['beta_mean'] = estimations coefficients
+# posterior['beta_std'] = écarts types
+```
+
+### 3. Geo Experiment Analysis
+
+Implémentation : `models/geo.py`
+
+- Analyse d'expériences marketing par région
+- Estimation d'effet incremental (test vs contrôle)
+- Statistiques d'impact
+
+---
+
+## 📊 Vue d'ensemble complète
+
+Pour une documentation exhaustive des améliorations, voir : **[IMPROVEMENTS.md](IMPROVEMENTS.md)**
+
+Ce fichier couvre :
+- ✅ Orchestration pipeline (Airflow local, GitHub Actions, Cloud Composer)
+- ✅ Modèles MMM (Ridge, Bayesian, Geo)
+- ✅ Scripts d'entraînement et artefacts
+- ✅ Tests et CI/CD
+- ✅ Docker et conteneurisation
+- ✅ Choix technologiques
+
+---
+
+## 🔗 Liens rapides
+
+- **Démarrer Streamlit** : `streamlit run dashboard/app.py`
+- **Airflow Local** : `cd airflow && docker compose up` → http://localhost:8080
+- **GitHub Actions** : Voir `.github/GITHUB_ACTIONS_SETUP.md`
+- **Cloud Composer** : Voir `cloud-composer/DEPLOY.md`
+- **Tests** : `python -m pytest -v`
+- **Architecture** : Voir `ARCHITECTURE.md`
+
+
+model_info = train_bayesian_mmm(df)
+```
+
+### 3. Geo Experiment Analysis
+
+Implémentation : `models/geo.py`
+
+- Analyse d'expériences géographiques (geo lift)
+- Estimation d'effet incremental
+- Comparaison test vs contrôle par région
+
+```python
+from models.geo import analyze_geo_experiment
+
+results = analyze_geo_experiment(df, test_regions, control_regions)
+```
+
+---
+
+## 🎓 Entraînement et Sauvegarde du Modèle
+
+### Script d'entraînement
+
+Utilisé par Airflow / GitHub Actions :
+
+```bash
+python scripts/train_model.py
+```
+
+Cela :
+- Charge `data/processed/mmm_ready.csv`
+- Entraîne le modèle Ridge MMM
+- Sauvegarde `models/artifacts/mmm_model.pkl` et métriques JSON
+
+### Charges du modèle dans le dashboard
+
+Le dashboard Streamlit charge automatiquement le modèle entraîné et permet :
+- Sélection Ridge vs Bayesian
+- Scénarios budgétaires
+- Attribution multi-touch
+
+---
+
+## 🧪 Tests
+
+Exécuter les tests unitaires :
+
+```bash
+python -m pytest -v
+```
+
+Couvre :
+- Modèles MMM (Ridge, Bayesian, Geo)
+- Transformations ETL
+- Qualité des données
+- Fonctions d'attribution
+
+Tests automatisés dans CI/CD (GitHub Actions, Airflow, Cloud Composer).
 
 ## 🔧 Développement futur
 
@@ -248,3 +574,101 @@ pytest
 Hamza Elmourabit 
 Saad Benhaimer
 Projet Marketing Mix Modeling : pipeline Data, modèle, dashboard et intégration BI.
+
+---
+
+## ⚡ Exécution Pas à Pas
+
+### 1️⃣ Pré-requis
+
+- Python 3.8+
+- Données brutes : `data/raw/compressed_data.csv`
+- (Optionnel) Compte GCP pour BigQuery
+- (Optionnel) Instance Looker pour dashboards
+
+### 2️⃣ Installation
+
+```bash
+pip install -r requirements.txt
+cp .env.example .env
+# Éditer .env avec credentials
+```
+
+### 3️⃣ Pipeline ETL
+
+```bash
+python run_pipeline.py
+# ✅ Output: data/processed/mmm_ready.csv
+```
+
+### 4️⃣ Dashboard Streamlit
+
+```bash
+streamlit run dashboard/app.py
+# Accès: http://localhost:8501
+```
+
+### 5️⃣ Rapport LaTeX (optionnel)
+
+```bash
+pdflatex MMM_Report_Final.tex
+pdflatex MMM_Report_Final.tex
+# ✅ Output: MMM_Report_Final.pdf
+```
+
+### 6️⃣ BigQuery (optionnel)
+
+```bash
+# Charger dans BigQuery (si configuré dans .env)
+python run_pipeline.py --bigquery
+```
+
+---
+
+## 📈 Workflow Exemple : Simuler un Budget
+
+1. **Ouvrir le dashboard**
+   ```bash
+   streamlit run dashboard/app.py
+   ```
+
+2. **Aller à la page « Scénarios »**
+
+3. **Ajuster les sliders** pour proposer un nouveau budget par canal
+
+4. **Observer la prédiction de revenu** basée sur le modèle entraîné
+
+5. **Comparer** avec le scénario baseline
+
+6. **Exporter** les résultats
+
+Temps total : **~10 minutes**
+
+---
+
+## ✅ Checklist Mise en Production
+
+- [ ] Données brutes validées
+- [ ] Pipeline ETL exécutée avec succès
+- [ ] Modèle MMM entraîné et validé
+- [ ] Dashboard Streamlit testé localement
+- [ ] BigQuery configuré et chargé (optionnel)
+- [ ] Looker dashboards créés (optionnel)
+- [ ] Rapport PDF généré
+- [ ] `.env` configuré avec credentials
+- [ ] Tests unitaires passent : `pytest`
+
+---
+
+## 🎯 Navigation Rapide
+
+- 🚀 [Démarrage Rapide](#-démarrage-rapide) — Installation et lancement en 5 minutes
+- 🏗️ [Architecture Globale](#-architecture-globale) — Vue d'ensemble du système
+- 📂 [Structure des Fichiers](#-structure-des-fichiers) — Organisation du projet
+- 🔄 [Pipeline ETL](#-pipeline-etl-expliqué) — Transformation des données
+- 🤖 [Modélisation](#-modélisation--ridge-regression) — Approche statistique
+- 📊 [Dashboard](#-dashboard-streamlit) — Interface interactive
+- 🛠️ [Technologies](#-technologies--stack) — Stack technologique
+- 📚 [Documentation](#-documentation-supplémentaire) — Ressources avancées
+
+**Commencer maintenant** : [Démarrage Rapide](#-démarrage-rapide) ⬆️
