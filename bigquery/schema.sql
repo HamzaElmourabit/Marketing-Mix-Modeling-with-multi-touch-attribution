@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS `rh-etl-project-467521.MMM_datset.mmm` (
   -- ===== IDENTIFIANTS =====
   date_day DATE,
   organisation_vertical STRING,
-  organisation_subvertical STRING,
+  organisation_subvertical STRING, 
   territory STRING,
   
   -- ===== VARIABLES DÉPENDANTES =====
