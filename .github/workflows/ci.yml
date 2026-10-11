@@ -29,6 +29,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Smoke test imports
+        run: python -c "import streamlit, pandas, pymc"
+
       - name: Lint (flake8)
         run: python -m flake8 .
 

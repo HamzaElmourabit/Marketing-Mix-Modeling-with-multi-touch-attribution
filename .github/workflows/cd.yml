@@ -13,9 +13,11 @@ concurrency:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 45
     permissions:
       contents: read
-      packages: write
+    env:
+      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
 
     steps:
       - uses: actions/checkout@v4
@@ -38,15 +40,22 @@ jobs:
         run: |
           docker build -t mmm-project:${{ github.sha }} .
 
+      - name: Smoke test image
+        run: docker run --rm mmm-project:${{ github.sha }} python -c "import streamlit, pandas, pymc"
+
+      - name: Docker Hub secrets missing (push skipped)
+        if: startsWith(github.ref, 'refs/tags/v') && env.DOCKERHUB_USERNAME == ''
+        run: echo "::warning::DOCKERHUB_USERNAME ou DOCKERHUB_TOKEN non défini, image construite mais non publiée"
+
       - name: Login to Docker Hub
-        if: startsWith(github.ref, 'refs/tags/v')
+        if: startsWith(github.ref, 'refs/tags/v') && env.DOCKERHUB_USERNAME != ''
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Push Docker image
-        if: startsWith(github.ref, 'refs/tags/v')
+        if: startsWith(github.ref, 'refs/tags/v') && env.DOCKERHUB_USERNAME != ''
         run: |
           docker tag mmm-project:${{ github.sha }} ${{ secrets.DOCKERHUB_USERNAME }}/mmm-project:${{ github.ref_name }}
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/mmm-project:${{ github.ref_name }}

@@ -16,6 +16,8 @@ matplotlib==3.8.4
 streamlit==1.28.1
 plotly==5.18.0
 streamlit-plotly-events==0.0.6
+# pyarrow récent exige NumPy 2 ; on garde une version compatible avec numpy 1.26 (import de streamlit/pandas)
+pyarrow==15.0.2
 
 # Pour Shapley value attribution
 shap==0.44.1
