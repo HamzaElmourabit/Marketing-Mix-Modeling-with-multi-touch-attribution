@@ -12,14 +12,14 @@ jobs:
     
     strategy:
       matrix:
-        python-version: ['3.10']
+        python-version: ['3.11']
     
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
           cache: 'pip'
@@ -29,7 +29,13 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
       
+      - name: Check raw data availability
+        id: data
+        run: |
+          if ls data/raw/*.csv >/dev/null 2>&1; then echo "available=true" >> "$GITHUB_OUTPUT"; else echo "available=false" >> "$GITHUB_OUTPUT"; echo "::warning::data/raw/ est absent (ignoré par git) : ETL et entraînement ignorés"; fi
+
       - name: Run ETL Pipeline
+        if: steps.data.outputs.available == 'true'
         env:
           # Si vous avez des secrets BigQuery, les ajouter ici
           # GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GCP_CREDENTIALS }}
@@ -46,6 +52,7 @@ jobs:
           echo "All tests passed!"
       
       - name: Train MMM Model
+        if: steps.data.outputs.available == 'true'
         run: |
           echo "Training MMM model..."
           python scripts/train_model.py
@@ -53,18 +60,20 @@ jobs:
       
       - name: Upload artifacts
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: mmm-artifacts
           path: models/artifacts/
+          if-no-files-found: ignore
           retention-days: 30
       
       - name: Upload logs
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: pipeline-logs
           path: logs/
+          if-no-files-found: ignore
           retention-days: 7
       
       - name: Notify on failure

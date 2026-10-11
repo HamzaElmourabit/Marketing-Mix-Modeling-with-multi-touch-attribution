@@ -146,12 +146,15 @@ COLUMN_MAPPING = {
 }
 
 # ===== FONCTIONS UTILITAIRES =====
+
+
 def get_channel_config(channel_name: str) -> dict:
     """Retourne la configuration pour un canal"""
     return CHANNEL_CONFIG.get(channel_name, {
         'decay': 0.5,
         'saturation_s': 1.5
     })
+
 
 def get_data_paths() -> dict:
     """Retourne tous les chemins de données"""
@@ -166,13 +169,16 @@ def get_data_paths() -> dict:
         'normalization_params': str(NORMALIZATION_PARAMS_PATH),
     }
 
+
 def get_spend_columns() -> list:
     """Retourne la liste des colonnes de dépense"""
     return [col for col in CHANNEL_CONFIG.keys()]
 
+
 def get_all_channels() -> list:
     """Retourne la liste de tous les canaux"""
     return list(CHANNEL_CONFIG.keys())
+
 
 # ===== VALIDATION =====
 if __name__ == "__main__":

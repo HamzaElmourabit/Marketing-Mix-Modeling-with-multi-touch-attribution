@@ -48,5 +48,5 @@ jobs:
       - name: Push Docker image
         if: startsWith(github.ref, 'refs/tags/v')
         run: |
-          docker tag mmm-project:${{ github.sha }} <votre-user>/mmm-project:${{ github.ref_name }}
-          docker push <votre-user>/mmm-project:${{ github.ref_name }}
+          docker tag mmm-project:${{ github.sha }} ${{ secrets.DOCKERHUB_USERNAME }}/mmm-project:${{ github.ref_name }}
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/mmm-project:${{ github.ref_name }}

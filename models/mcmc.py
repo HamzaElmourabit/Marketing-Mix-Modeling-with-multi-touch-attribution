@@ -1,8 +1,7 @@
 import numpy as np
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
-from typing import Dict, List, Optional
-import importlib.util
+from typing import Dict, Optional
 
 from .mmm_model import prepare_model_data
 
@@ -57,13 +56,11 @@ def train_bayesian_mmm(
     """Entraîne un modèle MMM Bayésien avec PyMC."""
     data = prepare_bayesian_model_data(df, target_col=target_col, include_controls=include_controls)
     X_scaled = data['X_scaled']
-    y_scaled = data['y_scaled']
-    n_features = X_scaled.shape[1]
+    data['y_scaled']
+    X_scaled.shape[1]
 
     try:
-        import pymc as pm
-        import arviz as az
-        from pytensor.link.c.exceptions import CompileError as PyTensorCompileError
+        pass
     except ImportError as import_err:
         raise ImportError(
             "PyMC/ArviZ n'est pas installé. Installez les dépendances `pymc` et `arviz` pour utiliser le modèle Bayésien MMM."
@@ -183,7 +180,13 @@ def get_bayesian_channel_attribution(model_info: Dict, df: pd.DataFrame) -> pd.D
 
     attribution_df = pd.DataFrame(contributions)
     if attribution_df.empty:
-        attribution_df = pd.DataFrame(columns=['Channel', 'Coefficient', 'Average Feature', 'Contribution', 'Contribution Share'])
+        attribution_df = pd.DataFrame(
+            columns=[
+                'Channel',
+                'Coefficient',
+                'Average Feature',
+                'Contribution',
+                'Contribution Share'])
         return attribution_df
 
     total_contribution = attribution_df['Contribution'].abs().sum()

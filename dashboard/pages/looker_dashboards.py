@@ -11,7 +11,7 @@ from dashboard.looker_integration import LookerEmbedManager, get_looker_credenti
 def show_looker_page():
     """Affiche la page Looker"""
     st.markdown("# 🎨 Looker Dashboards (Embedded)")
-    
+
     if not looker_section_available():
         st.warning(
             "⚠️ Credentials Looker non configurées\n\n"
@@ -20,45 +20,45 @@ def show_looker_page():
             "- `LOOKER_API_KEY`\n"
             "- `LOOKER_API_SECRET`"
         )
-        
+
         with st.expander("📖 Configuration Looker"):
             st.markdown("""
             ### Variables d'environnement requises
-            
+
             ```bash
             export LOOKER_API_HOST=https://looker.company.com
             export LOOKER_API_KEY=your-api-key
             export LOOKER_API_SECRET=your-api-secret
             ```
-            
+
             ### Étapes d'intégration
-            
+
             1. **Créer une Service Account dans Looker**
                - Admin → Users → Service Accounts
                - Générer une API key/secret
-            
+
             2. **Créer les dashboards dans Looker**
                - Explore → MMM model
                - Créer des visualisations
                - Sauvegarder comme dashboards
-            
+
             3. **Configurer les permissions**
                - Service Account doit avoir accès aux dashboards
                - Activer les paramètres d'embed pour le compte
-            
+
             4. **Configurer la liste des dashboards**
                - Utiliser `LOOKER_DASHBOARD_IDS` dans `.env`
-            
+
             ### Dashboards recommandés
-            
+
             - **mmm_overview** - Vue d'ensemble MMM
             - **channel_performance** - Performance par canal
             - **roi_analysis** - Analyse ROI
             - **trends** - Tendances long-terme
             """)
-        
+
         return
-    
+
     creds = get_looker_credentials()
     manager = LookerEmbedManager(creds['api_host'], creds['api_key'], creds['api_secret'])
     configured_ids = [dash.strip() for dash in os.getenv('LOOKER_DASHBOARD_IDS', '').split(',') if dash.strip()]
@@ -67,7 +67,7 @@ def show_looker_page():
     st.markdown("## 📊 Tableau de bord Looker")
     if configured_ids:
         st.info(f"Dashboards configurés via `LOOKER_DASHBOARD_IDS`: {', '.join(configured_ids)}")
-    
+
     if dashboards:
         dashboard_options = []
         if configured_ids:
@@ -83,7 +83,8 @@ def show_looker_page():
             format_func=lambda x: dashboards[x]['title'] if x in dashboards else x
         )
 
-        st.markdown(f"### {dashboards[selected_dash_id]['title']}" if selected_dash_id in dashboards else "### Dashboard sélectionné")
+        st.markdown(
+            f"### {dashboards[selected_dash_id]['title']}" if selected_dash_id in dashboards else "### Dashboard sélectionné")
         if selected_dash_id in dashboards and dashboards[selected_dash_id]['description']:
             st.info(dashboards[selected_dash_id]['description'])
 
@@ -92,7 +93,9 @@ def show_looker_page():
         embed_url = manager.get_embed_url(selected_dash_id, user_email, user_name)
 
         if embed_url:
-            st.markdown(f'<iframe src="{embed_url}" width="100%" height="900" frameborder="0"></iframe>', unsafe_allow_html=True)
+            st.markdown(
+                f'<iframe src="{embed_url}" width="100%" height="900" frameborder="0"></iframe>',
+                unsafe_allow_html=True)
         else:
             st.error("❌ Impossible de charger le dashboard Looker. Vérifiez les permissions et l'URL Looker.")
     else:
@@ -182,26 +185,26 @@ def looker_dashboard_snippets() -> dict:
               dimensions: [date_day]
               measures: [total_spend]
               type: metric
-              
+
             - title: "Total Revenue"
               query: mmm_daily
               dimensions: [date_day]
               measures: [total_revenue]
               type: metric
-              
+
             - title: "Revenue vs Spend"
               query: mmm_daily
               dimensions: [date_day]
               measures: [total_revenue, total_spend]
               type: line
-              
+
             - title: "Channel Mix"
               query: mmm_channel
               dimensions: [channel]
               measures: [spend]
               type: donut
         """,
-        
+
         'channel_performance': """
         - title: "Channel Performance"
           description: "Performance détaillée par canal"
@@ -212,20 +215,20 @@ def looker_dashboard_snippets() -> dict:
               dimensions: [channel]
               measures: [spend]
               type: bar
-              
+
             - title: "Revenue by Channel"
               query: mmm_channel
               dimensions: [channel]
               measures: [revenue]
               type: bar
-              
+
             - title: "ROI by Channel"
               query: mmm_channel
               dimensions: [channel]
               measures: [roi]
               type: table
         """,
-        
+
         'roi_analysis': """
         - title: "ROI Analysis"
           description: "Analyse détaillée du ROI"
@@ -236,7 +239,7 @@ def looker_dashboard_snippets() -> dict:
               dimensions: [date_day]
               measures: [roi]
               type: line
-              
+
             - title: "ROI Distribution"
               query: mmm_daily
               dimensions: [roi_bucket]
