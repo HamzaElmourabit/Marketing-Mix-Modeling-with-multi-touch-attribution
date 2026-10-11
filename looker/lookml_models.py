@@ -240,34 +240,34 @@ def get_lookml_export() -> dict:
 def install_lookml_files():
     """
     Instructions pour installer les fichiers LookML dans Looker
-    
+
     À faire manuellement:
     1. Ouvrir Looker Dev Mode
     2. Créer les fichiers dans le dossier project
     3. Copier le contenu des fichiers
     4. Commiter les changements
     """
-    
+
     print("""
     📋 INSTALLATION DES FICHIERS LOOKML
     ===================================
-    
+
     1. Ouvrir Looker (https://looker.company.com)
     2. Développement → Manage Projects
     3. Créer ou ouvrir le project "mmm"
     4. Dev Mode → Créer les fichiers:
-    
+
        ├── views/
        │   ├── mmm.view.lkml
        │   └── mmm_channels.view.lkml
        │
        └── dashboards/
            └── mmm_overview.dashboard.lookml
-    
+
     5. Coller le contenu de chaque fichier
     6. Commiter les changements
     7. Deploy vers production
-    
+
     📚 Fichiers disponibles:
     - views/mmm.view (vue principale)
     - views/mmm_channels.view (analyse canaux)

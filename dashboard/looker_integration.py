@@ -11,14 +11,14 @@ import os
 
 class LookerEmbedManager:
     """Gère l'intégration des dashboards Looker"""
-    
+
     def __init__(self, api_host: str, api_key: str, api_secret: str):
         self.api_host = api_host.rstrip('/')
         self.api_key = api_key
         self.api_secret = api_secret
         self.token = None
         self.api_version = '4.0'
-    
+
     def authenticate(self) -> bool:
         """Authentifie avec l'API Looker"""
         try:
@@ -31,7 +31,7 @@ class LookerEmbedManager:
                 },
                 timeout=10
             )
-            
+
             if response.status_code == 200:
                 self.token = response.json().get('access_token')
                 return True
@@ -40,12 +40,12 @@ class LookerEmbedManager:
         except Exception as e:
             st.error(f"❌ Connection error: {e}")
             return False
-    
+
     def get_embed_url(self, dashboard_id: str, user_email: str, user_name: str) -> Optional[str]:
         """Génère l'URL d'embedding sécurisée pour un dashboard"""
         if not self.token and not self.authenticate():
             return None
-        
+
         try:
             headers = {
                 'Authorization': f'Bearer {self.token}',
@@ -63,7 +63,7 @@ class LookerEmbedManager:
                 'session_length': 3600,
                 'force_logout_login': True
             }
-            
+
             sso_url = f"{self.api_host}/api/{self.api_version}/login/embed/{dashboard_id}"
             response = requests.post(
                 sso_url,
@@ -71,7 +71,7 @@ class LookerEmbedManager:
                 json=embed_payload,
                 timeout=10
             )
-            
+
             if response.status_code == 200:
                 embed_url = response.json().get('url')
                 if embed_url.startswith('http'):
@@ -82,12 +82,12 @@ class LookerEmbedManager:
         except Exception as e:
             st.error(f"❌ Error generating embed URL: {e}")
             return None
-    
+
     def list_dashboards(self) -> dict:
         """Liste les dashboards Looker disponibles"""
         if not self.token and not self.authenticate():
             return {}
-        
+
         try:
             headers = {'Authorization': f'Bearer {self.token}'}
             response = requests.get(
@@ -96,7 +96,7 @@ class LookerEmbedManager:
                 params={'limit': 100},
                 timeout=10
             )
-            
+
             if response.status_code == 200:
                 dashboards = {}
                 for dash in response.json():
@@ -116,7 +116,7 @@ class LookerEmbedManager:
 def show_looker_dashboard(dashboard_id: str, api_host: str, api_key: str, api_secret: str):
     """
     Affiche un dashboard Looker dans Streamlit
-    
+
     Args:
         dashboard_id: ID du dashboard Looker
         api_host: Host Looker
@@ -124,17 +124,17 @@ def show_looker_dashboard(dashboard_id: str, api_host: str, api_key: str, api_se
         api_secret: API secret
     """
     manager = LookerEmbedManager(api_host, api_key, api_secret)
-    
+
     # Obtenir les infos utilisateur
     user_email = "mmm-user@company.com"  # À remplacer par session user
     user_name = "MMM User"
-    
+
     # Générer l'URL d'embedding
     embed_url = manager.get_embed_url(dashboard_id, user_email, user_name)
-    
+
     if embed_url:
-        st.markdown(f'<iframe src="{embed_url}" width="100%" height="800"></iframe>', 
-                   unsafe_allow_html=True)
+        st.markdown(f'<iframe src="{embed_url}" width="100%" height="800"></iframe>',
+                    unsafe_allow_html=True)
     else:
         st.error("❌ Impossible de charger le dashboard Looker")
 

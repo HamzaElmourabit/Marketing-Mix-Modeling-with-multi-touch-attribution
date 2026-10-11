@@ -70,7 +70,8 @@ def prepare_model_data(df: pd.DataFrame, target_col: Optional[str] = None, inclu
     return X, y, feature_cols
 
 
-def train_mmm_model(df: pd.DataFrame, target_col: Optional[str] = None, include_controls: bool = True, alpha: float = 1.0):
+def train_mmm_model(df: pd.DataFrame, target_col: Optional[str]
+                    = None, include_controls: bool = True, alpha: float = 1.0):
     resolved_target_col = target_col or get_revenue_col(df)
     X, y, feature_cols = prepare_model_data(df, target_col=target_col, include_controls=include_controls)
 

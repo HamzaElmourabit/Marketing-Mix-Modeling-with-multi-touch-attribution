@@ -2,6 +2,10 @@
 Loads processed data, trains MMM models and logs them to MLflow.
 """
 
+from models.mlflow_tracking import MLflowTracker
+from models.mmm_model import evaluate_temporal_holdout, get_revenue_col, prepare_model_data
+from models.mcmc import train_bayesian_mmm
+from models.geo import analyze_geo_experiment
 import json
 import os
 import sys
@@ -21,11 +25,6 @@ if hasattr(sys.stdout, "reconfigure"):
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-
-from models.geo import analyze_geo_experiment
-from models.mcmc import train_bayesian_mmm
-from models.mmm_model import evaluate_temporal_holdout, get_revenue_col, prepare_model_data
-from models.mlflow_tracking import MLflowTracker
 
 
 DATA_PATH = ROOT / "data" / "processed" / "mmm_ready.csv"
@@ -178,7 +177,8 @@ def _log_geo_run(tracker: MLflowTracker):
         return
 
     df_geo = pd.read_csv(CLEAN_DATA_PATH)
-    geo_column = GEO_COLUMN or ("ORGANISATION_PRIMARY_TERRITORY_NAME" if "ORGANISATION_PRIMARY_TERRITORY_NAME" in df_geo.columns else None)
+    geo_column = GEO_COLUMN or (
+        "ORGANISATION_PRIMARY_TERRITORY_NAME" if "ORGANISATION_PRIMARY_TERRITORY_NAME" in df_geo.columns else None)
     treatment_column = GEO_TREATMENT_COLUMN if GEO_TREATMENT_COLUMN in df_geo.columns else None
     metric_column = GEO_METRIC_COLUMN
 
@@ -195,7 +195,10 @@ def _log_geo_run(tracker: MLflowTracker):
     )
 
     summary = results["lift_summary"].copy()
-    lift_series = pd.to_numeric(summary.get("lift_pct"), errors="coerce") if "lift_pct" in summary.columns else pd.Series(dtype=float)
+    lift_series = pd.to_numeric(
+        summary.get("lift_pct"),
+        errors="coerce") if "lift_pct" in summary.columns else pd.Series(
+        dtype=float)
     metrics = {
         "geo_segments": float(len(summary)),
         "avg_lift_pct": float(lift_series.fillna(0).mean()) if len(lift_series) > 0 else 0.0,
