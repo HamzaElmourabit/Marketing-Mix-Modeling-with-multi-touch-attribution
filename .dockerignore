@@ -13,6 +13,5 @@ __pycache__/
 docker-compose.override.yml
 *.log
 data/raw/
-data/reference/
 *.sqlite3
 *.db
